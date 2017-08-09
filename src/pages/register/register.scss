@@ -1,5 +1,9 @@
 page-register {
     .scroll-content{
         overflow-y: hidden;
+
+        .item{
+            padding-left: 0px;
+        }
     }
 }

@@ -4,21 +4,23 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <form #registerForm="ngForm" (ngSubmit)="register(user)">
-    <ion-list>
-      <ion-item>
-        <ion-label floating>E-Mail</ion-label>
-        <ion-input type="email" [(ngModel)]="user.email" name="email" minlength="6" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Senha</ion-label>
-        <ion-input type="password" [(ngModel)]="user.password" name="password" minlength="6" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Confirmar Senha</ion-label>
-        <ion-input type="password" [(ngModel)]="user.password_confirmation" name="password" minlength="6" required></ion-input>
-      </ion-item>
-    </ion-list>
-    <button full ion-button [disabled]="! registerForm.form.valid || user.password != user.password_confirmation">Salvar</button>
-  </form>
+  <div padding>
+    <form #registerForm="ngForm" (ngSubmit)="register(user)">
+      <ion-list>
+        <ion-item>
+          <ion-label floating>E-Mail</ion-label>
+          <ion-input type="email" [(ngModel)]="user.email" name="email" minlength="6" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Senha</ion-label>
+          <ion-input type="password" [(ngModel)]="user.password" name="password" minlength="6" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Confirmar Senha</ion-label>
+          <ion-input type="password" [(ngModel)]="user.password_confirmation" name="password" minlength="6" required></ion-input>
+        </ion-item>
+      </ion-list>
+      <button full ion-button [disabled]="! registerForm.form.valid || user.password != user.password_confirmation">Salvar</button>
+    </form>
+  </div>
 </ion-content>
