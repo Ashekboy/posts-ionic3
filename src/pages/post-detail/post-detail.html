@@ -1,0 +1,58 @@
+<!--
+  Generated template for the PostDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Post</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only [navPush]="'PostEditPage'" [navParams]="{'id': post.$key}">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+<ion-card>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/img/no-avatar.png">
+      </ion-avatar>
+      <h2>{{ user.displayName }}</h2>
+      <p>{{ getFormatDate(post.created_at) }}</p>
+    </ion-item>
+
+     <ion-card-content>
+        <br>
+        <p [innerHTML]="post.content"></p>
+      </ion-card-content>
+
+      <ion-item-divider>
+        Comentários
+      </ion-item-divider>
+      <a ion-item *ngFor="let comment of commentsRef$ | async">
+        <h2><strong>{{ comment.user.displayName }}</strong></h2>
+        <p>{{ comment.text }}</p>
+      </a>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-textarea placeholder="Escreva uma mensagem" rows="1" [(ngModel)]="comment.text"></ion-textarea>
+    <ion-buttons right>
+      <button ion-button icon-right color="primary" (click)="sendComment(comment)" [disabled]="comment.text == ''">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+

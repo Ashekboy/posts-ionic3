@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content padding>
+  <form #loginForm="ngForm" (ngSubmit)="login(user)">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>E-Mail</ion-label>
+        <ion-input type="email" [(ngModel)]="user.email" name="email" minlength="6" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="user.password" name="password" minlength="6" required></ion-input>
+      </ion-item>
+    </ion-list>
+    <button full ion-button [disabled]="! loginForm.form.valid">Entrar</button>
+  </form>
+
+  <br>  
+
+  <a href="#" ion-button full color="light" [navPush]="'RegisterPage'">Cadastre-se</a>
+</ion-content>
