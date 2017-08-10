@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { Subscription } from 'rxjs/Subscription';
+
+import { Comment } from '../../models/comment';
+
 /**
  * Generated class for the PostCommentEditPage page.
  *
@@ -15,11 +20,29 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PostCommentEditPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  commentSubscription: Subscription;
+  commentsRef$: FirebaseObjectObservable<Comment>;
+  comment = {} as Comment;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private database: AngularFireDatabase) {
+    let postId = this.navParams.get('postId');
+    let commentId = this.navParams.get('commentId');
+
+    this.commentsRef$ = this.database.object(`posts/${postId}/comments/${commentId}`);
+
+    this.commentSubscription = this.commentsRef$.subscribe(comment => {
+      this.comment = comment;
+    });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PostCommentEditPage');
+  update(comment: Comment){
+    this.commentsRef$.update(comment);
+    this.navCtrl.pop();
+  }
+
+  ionViewWillLeave(){
+    // Removendo observação para limpeza de dados em memória
+    this.commentSubscription.unsubscribe(); 
   }
 
 }

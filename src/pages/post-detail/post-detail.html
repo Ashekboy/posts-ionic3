@@ -8,9 +8,12 @@
 
   <ion-navbar color="primary">
     <ion-title>Post</ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="post.user.uid == user.uid">
       <button ion-button icon-only [navPush]="'PostEditPage'" [navParams]="{'id': post.$key}">
         <ion-icon name="create"></ion-icon>
+      </button>
+      <button ion-button icon-only (tap)="delete()">
+        <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -23,7 +26,7 @@
 <ion-card>
     <ion-item>
       <ion-avatar item-start>
-        <img src="assets/img/no-avatar.png">
+        <img [src]="user.photoUrl || 'assets/img/no-avatar.png'">
       </ion-avatar>
       <h2>{{ user.displayName }}</h2>
       <p>{{ getFormatDate(post.created_at) }}</p>
@@ -37,12 +40,11 @@
       <ion-item-divider>
         Comentários
       </ion-item-divider>
-      <a ion-item *ngFor="let comment of commentsRef$ | async">
+      <a ion-item *ngFor="let comment of commentsRef$ | async" (tap)="commentOptions(comment)">
         <h2><strong>{{ comment.user.displayName }}</strong></h2>
         <p>{{ comment.text }}</p>
       </a>
   </ion-card>
-
 </ion-content>
 
 <ion-footer>

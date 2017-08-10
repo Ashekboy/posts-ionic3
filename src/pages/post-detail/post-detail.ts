@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -33,6 +33,8 @@ export class PostDetailPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
+    public alertCtrl: AlertController,
+    public actionSheetCtrl: ActionSheetController,
     private database: AngularFireDatabase,
     private afAuth: AngularFireAuth) {
     // Pegando o ID do post passado como parametro
@@ -74,7 +76,58 @@ export class PostDetailPage {
 
     //Limpa o comentário para limpar o textarea
     this.comment.text = '';
-    
+  }
+
+  delete(){
+    this.alertCtrl.create({
+      title: 'Apagar',
+      message: 'Tem certeza que deseja apagar esse Post?',
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.pop().then(() => {
+              this.postsRef$.remove();
+            });
+          }
+        },
+        {
+          text: 'Não',
+          role: 'cancel'
+        }
+      ]
+    }).present();
+  }
+
+  commentOptions(comment: Comment){
+    if(comment.user.uid == this.user.uid){
+      let postId = this.post.$key;
+      let commentId = comment.$key;
+      
+      this.actionSheetCtrl.create({
+        buttons: [
+          {
+            text: 'Editar',
+            icon: 'create',
+            handler: () => {
+              this.navCtrl.push('PostCommentEditPage', {postId: postId, commentId: commentId});
+            }
+          },
+          {
+            text: 'Apagar',
+            icon: 'trash',
+            handler: () => {
+              return this.database.object(`posts/${postId}/comments/${commentId}`).remove();
+            }
+          },
+          {
+            text: 'Cancelar',
+            icon: 'close',
+            role: 'cancel'
+          }
+        ]
+      }).present();
+    }
   }
 
   ionViewWillLeave(){

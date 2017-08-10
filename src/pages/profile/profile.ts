@@ -36,7 +36,7 @@ export class ProfilePage {
   update(user: User) {
     this.afAuth.auth.currentUser.updateProfile(user).then(() => {
       this.toastCtrl.create({ message: 'Usuário Atualizado', duration: 2000 }).present();
-      this.navCtrl.pop();
+      this.navCtrl.setRoot('PostListPage');
     }).catch(err => {
       this.toastCtrl.create({ message: err.message, duration: 2000 }).present();
     });

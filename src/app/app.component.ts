@@ -16,7 +16,13 @@ export class MyApp {
       if(! auth){
         this.rootPage = 'LoginPage';
       }else{
-        this.rootPage = 'PostListPage';
+        let user = this.afAuth.auth.currentUser;
+
+        if(user.displayName === null){
+          this.rootPage = 'ProfilePage';
+        }else{
+          this.rootPage = 'PostListPage';
+        }        
       }        
     });
     

@@ -16,16 +16,12 @@ import { MyApp } from './app.component';
 
 import { ImageProvider } from '../providers/image/image';
 
-// Directives
-import { ElasticModule } from 'ng-elastic';
-
 @NgModule({
   declarations: [
     MyApp
   ],
   imports: [
     BrowserModule,
-    ElasticModule,
     IonicModule.forRoot(MyApp),
     // Inicializando AngularFireModule
     AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
