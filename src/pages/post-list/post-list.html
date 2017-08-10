@@ -9,12 +9,15 @@
   <ion-navbar color="primary">
     <ion-title>Posts</ion-title>
     <ion-buttons end>
+      <!-- Botão de Perfil -->
       <button ion-button icon-only [navPush]="'ProfilePage'">
         <ion-icon name="person"></ion-icon>
       </button>
+      <!-- Botão para Criar Post -->
       <button ion-button icon-only [navPush]="'PostCreatePage'">
         <ion-icon name="add"></ion-icon>
       </button>
+      <!-- Botão para sair do Aplicativo -->
       <button ion-button icon-only (tap)="logout()">
         <ion-icon name="log-out"></ion-icon>
       </button>
@@ -25,17 +28,22 @@
 
 <ion-content>
 
+  <!-- Iterando todos os posts | async = iterar apenas quando houver registros -->
+  <!-- navPush = Direcionar para a tela de Detalhes do Post + navParams = Parametro id para buscar o post -->
   <ion-card *ngFor="let post of postsRef$ | async" [navPush]="'PostDetailPage'" [navParams]="{'id': post.$key}">
     <ion-item>
       <ion-avatar item-start>
-        <img [src]="post.user.photoUrl || 'assets/img/no-avatar.png'">
+        <!-- Se não houver foto exibir uma padrão -->
+        <img [src]="post.user.photoURL || 'assets/img/no-avatar.png'">
       </ion-avatar>
       <h2>{{ post.user.displayName || 'Sem Nome' }}</h2>
+      <!-- Formatando a data -->
       <p>{{ post.created_at | date: 'dd/MM/yyyy' || 'Sem Data' }}</p>
     </ion-item>
 
      <ion-card-content>
         <br>
+        <!-- innerHTML = Transforma e exibe um texto em HTML -->
         <p [innerHTML]="post.content"></p>
       </ion-card-content>
 
@@ -43,6 +51,7 @@
       <ion-col>
         <button ion-button icon-left clear small>
           <ion-icon name="text"></ion-icon>
+          <!-- Função que conta o número de propriedades -->
           <div>{{ getCommentCount(post) }}</div>
         </button>
       </ion-col>

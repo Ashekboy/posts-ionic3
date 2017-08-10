@@ -5,13 +5,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { Register } from '../../models/register';
 
-/**
- * Generated class for the RegisterPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-register',
@@ -21,13 +14,18 @@ export class RegisterPage {
 
   user = {} as Register;
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, private afAuth: AngularFireAuth) {
-  }
+  constructor(
+    public navCtrl: NavController, 
+    public toastCtrl: ToastController, 
+    private afAuth: AngularFireAuth) {}
 
   register(user: Register){
-    this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then(auth => {
-      console.log(auth);
-    }).catch(err => {
+    // Cria um novo usuário com email e senha
+    this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).catch(err => {
+      /* Verificado apenas o erro, pois o sucesso redireciona para ProfilePage para completar o cadastro
+       * De acordo com o Observable em app.component
+       * Exibe um toast por 2 segundos com a mensagem de erro - EM INGLÊS
+       */
       this.toastCtrl.create({message: err.message, duration: 2000}).present();
     });
   }

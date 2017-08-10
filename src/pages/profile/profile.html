@@ -17,8 +17,12 @@
     <ion-row>
       <ion-col col-25></ion-col>
       <ion-col col-50>
-        <img src="assets/img/no-avatar.png" class="circle">
-        <button icon-only ion-button class="circle" (tap)="changePicture()"><ion-icon name="image"></ion-icon></button>
+        <!-- Se não houver foto exibir uma padrão -->
+        <img [src]="user.photoURL || 'assets/img/no-avatar.png'" class="circle">
+        <!-- Botão para chamar o ACTIONSHEET com as opções de CAMERA ou GALERIA -->
+        <button icon-only ion-button class="circle" (tap)="changePicture()">
+          <ion-icon name="image"></ion-icon>
+        </button>
       </ion-col>
       <ion-col col-25></ion-col>
     </ion-row>
@@ -44,6 +48,7 @@
       <br>
 
       <div padding>
+        <!--  Desabilita o form caso não cumpra com os requisitos de cada input required -->
         <button ion-button block color="primary" [disabled]="! profileForm.form.valid">Salvar</button>
       </div>
     </form>

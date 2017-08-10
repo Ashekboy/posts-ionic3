@@ -5,12 +5,6 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { Post } from '../../models/post';
-/**
- * Generated class for the PostListPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -31,10 +25,13 @@ export class PostListPage {
   }
 
   getCommentCount(post: Post){
+    // Se não houver nenhum comentário no Node no Firebase
     if(post.comments === undefined) return '0 Comentários';
-
+    
+    // Conta o número de propriedades no node, Firebase guarda propriedades a cada adição e não posições
     let countComments = Object.keys(post.comments).length;
 
+    // Se 1 retorna no singular, senão plural
     return countComments == 1 ? '1 Commentário' : countComments + ' Comentários';
   }
 
@@ -46,6 +43,7 @@ export class PostListPage {
         {
           text: 'Sim',
           handler: () => {
+            // Efetua logout e redireciona para a Tela informada no Observable em app.component
             this.afAuth.auth.signOut();
           }
         },

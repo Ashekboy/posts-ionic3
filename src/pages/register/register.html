@@ -3,6 +3,7 @@
     <ion-title>Cadastre-se</ion-title>
   </ion-navbar>
 </ion-header>
+
 <ion-content padding>
   <div padding>
     <form #registerForm="ngForm" (ngSubmit)="register(user)">
@@ -20,6 +21,7 @@
           <ion-input type="password" [(ngModel)]="user.password_confirmation" name="password" minlength="6" required></ion-input>
         </ion-item>
       </ion-list>
+      <!--  Desabilita o form caso não cumpra com os requisitos de cada input required ou se a senha e confirmação forem diferentes -->
       <button full ion-button [disabled]="! registerForm.form.valid || user.password != user.password_confirmation">Salvar</button>
     </form>
   </div>

@@ -34,15 +34,24 @@ export class ProfilePage {
   }
 
   update(user: User) {
-    this.afAuth.auth.currentUser.updateProfile(user).then(() => {
-      this.toastCtrl.create({ message: 'Usuário Atualizado', duration: 2000 }).present();
+    // Cria referencia, poderia ser chamado diretamente
+    let userRef$ = this.afAuth.auth.currentUser;
+    // Atualiza apenas Nome e Foto
+    userRef$.updateProfile(user).then(() => {
+      // Atualiza email e aguarda apenas por erro
+      userRef$.updateEmail(user.email).catch(err => {
+        this.toastCtrl.create({ message: err.message, duration: 2000 }).present();
+      });
+      // Seta a página inicial para a lista de Posts
       this.navCtrl.setRoot('PostListPage');
     }).catch(err => {
+      // Exibe um TOAST de erro se houver
       this.toastCtrl.create({ message: err.message, duration: 2000 }).present();
     });
   }
 
   takePicture() {
+    // OPções para Chamar a Camera
     const takePictureOptions: CameraOptions = {
       quality: 50,
       sourceType: this._CAMERA.PictureSourceType.CAMERA,
@@ -55,6 +64,7 @@ export class ProfilePage {
   }
 
   selectPicture() {
+    // Opções para chamar a Galeria
     const choosePictureOptions: CameraOptions = {
       quality: 50,
       sourceType: this._CAMERA.PictureSourceType.PHOTOLIBRARY,
@@ -67,12 +77,16 @@ export class ProfilePage {
   }
 
   getPicture(options: CameraOptions) {
+    // Chama a camera ou Galeria de acordo com opções
     this._CAMERA.getPicture(options).then(data => {
+      // Retorna em base64 a foto capturada
       let base64Image = 'data:image/jpeg;base64,' + data;
+      //Efetua o upload da imagem no firebase e retorna o erro ou sucesso
       return this.imageProvider.upload(base64Image, this.user.uid, this.user.photoURL);
     }).then(data => {
-      alert(data);
+      alert(JSON.stringify(data));
       this.user.photoURL = data;
+      // Atualiza o usuário
       this.update(this.user);
     });
   }
@@ -99,8 +113,7 @@ export class ProfilePage {
           icon: 'close-circle',
           role: 'cancel'
         }
-      ],
-      enableBackdropDismiss: false
+      ]
     }).present();
   }
 
