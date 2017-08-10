@@ -2,15 +2,13 @@
 
 ````
 $ git clone https://github.com/wellsm/posts-ionic3.git
-````
-
-Na raíz do projeto execute:
-
-````
-npm install
+$ cd posts-ionic3
+$ npm install
 ````
 
 #### Configuração do FIREBASE
+
+Crie o arquivo src/app/firebase.credentials.ts com o conteúdo abaixo, preencha com os dados da sua aplicação criada no Firebase
 
 ````
 export const FIREBASE_CREDENTIALS = {
@@ -22,4 +20,6 @@ export const FIREBASE_CREDENTIALS = {
     messagingSenderId: ""
 };
 ````
+
+Habilite também a Autenticação com Email/Senha no Firebase
 
